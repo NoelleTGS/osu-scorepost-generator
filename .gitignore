@@ -1,0 +1,6 @@
+/scorepostgenerator.spec
+/build.sh
+/.env
+/build/
+/dist/
+/.idea/
