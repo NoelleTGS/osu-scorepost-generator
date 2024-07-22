@@ -28,7 +28,7 @@ Rename or copy `.example.env` to `.env` and fill it out with your API key, clien
 
 **Run the script:**
 ```
-python your_script.py
+python scorepostgenerator.py
 ```
 
 ## Contributing
