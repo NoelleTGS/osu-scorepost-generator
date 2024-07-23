@@ -15,7 +15,8 @@ cg = Circleguard(os.getenv("CIRCLEGUARD_API_KEY"))
 
 client_id = os.getenv("OSU_CLIENT_ID")
 client_secret = os.getenv("OSU_CLIENT_SECRET")
-api = Ossapi(client_id, client_secret)
+callback_url = "http://localhost:727/"
+api = Ossapi(client_id, client_secret, callback_url)
 
 
 def acc_if_fc(score):
