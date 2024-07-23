@@ -84,7 +84,7 @@ if inputMode == "user":
 elif inputMode == "score":
     scoreID = int(input("Enter score ID: "))
     try:
-        score = api.score(gamemode, scoreID)
+        score = api.score(scoreID)
         currentUser = api.user(score.user())
     except IndexError:
         print("Score not found.")
