@@ -139,7 +139,10 @@ if not score.perfect:
     post += "(" + str(int(calculatePP("fc", score, maxcombo))) + "pp if FC) "
 
 if score.replay:
-    replay = ReplayMap(score.beatmap.id, currentUser.id)
+    try:
+        replay = ReplayOssapi(api.download_score(score.id))
+    except:
+        replay = ReplayOssapi(api.download_score_mode(score.mode, score.id))
     post += "| " + str("%.2f" % round(cg.ur(replay), 2))
     if "DT" in str(score.mods) or "HT" in str(score.mods):
         post += " cv. UR "
