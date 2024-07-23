@@ -20,7 +20,7 @@ pip install -r requirements.txt
 ```
 **Set up environment variables:**
 
-Go to your [osu! settings page](https://osu.ppy.sh/home/account/edit) and click "New OAuth Application" near the bottom, give it any name you want.
+Go to your [osu! settings page](https://osu.ppy.sh/home/account/edit) and click "New OAuth Application" near the bottom, give it any name you want, and add "http://localhost:727/" as a callback URL.
 
 Under the "Legacy API" tab, create an API key if you haven't already.
 
@@ -30,6 +30,7 @@ Rename or copy `.example.env` to `.env` and fill it out with your API key, clien
 ```
 python scorepostgenerator.py
 ```
+The first time you run the script (or if you haven't run it in a while), it will make you authenticate on the osu! website.
 
 ## Contributing
 I don't have a clue what I'm doing so pull requests are open if you notice any glaring flaws in my code.
