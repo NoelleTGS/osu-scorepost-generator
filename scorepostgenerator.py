@@ -157,4 +157,4 @@ except:
     print("An error occurred when coping to clipboard.")
 
 if input("Open browser? (y/N) ") == ("y" or "yes"):
-    webbrowser.open_new_tab("https://www.reddit.com/r/osugame/submit")
+    webbrowser.open_new_tab("https://www.reddit.com/r/osugame/submit/?type=IMAGE")
