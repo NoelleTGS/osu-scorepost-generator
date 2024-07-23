@@ -154,7 +154,8 @@ try:
     pc.copy(post)
     print("Copied to clipboard.")
 except:
-    print("An error occurred when coping to clipboard.")
+    print("An error occurred when coping to clipboard. If you're using Linux, make sure you have either xsel or xclip "
+          "installed.")
 
 if input("Open browser? (y/N) ") == ("y" or "yes"):
     webbrowser.open_new_tab("https://www.reddit.com/r/osugame/submit/?type=IMAGE")
