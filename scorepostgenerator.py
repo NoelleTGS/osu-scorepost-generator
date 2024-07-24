@@ -101,6 +101,9 @@ elif inputMode == "score":
     except IndexError:
         print("Score not found.")
         exit()
+else:
+    print("Invalid entry.")
+    quit()
 
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
 star = "%.2f" % round(
