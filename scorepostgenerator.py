@@ -16,7 +16,12 @@ cg = Circleguard(os.getenv("CIRCLEGUARD_API_KEY"))
 client_id = os.getenv("OSU_CLIENT_ID")
 client_secret = os.getenv("OSU_CLIENT_SECRET")
 callback_url = "http://localhost:727/"
-api = Ossapi(client_id, client_secret, callback_url)
+try:
+    api = Ossapi(client_id, client_secret, callback_url)
+except PermissionError:
+    print("Error connecting to your OAuth client. Please make sure you have included the correct client ID and client "
+          "secret in the .env file.")
+    quit()
 legacy_only = os.getenv("LEGACY_ONLY")
 
 
@@ -150,11 +155,16 @@ if score.replay:
         replay = ReplayOssapi(api.download_score(score.id))
     except:
         replay = ReplayOssapi(api.download_score_mode(score.mode, score.id))
-    post += "| " + str("%.2f" % round(cg.ur(replay), 2))
-    if "DT" in str(score.mods) or "HT" in str(score.mods):
-        post += " cv. UR "
+    try:
+        post += "| " + str("%.2f" % round(cg.ur(replay), 2))
+    except InvalidKeyException:
+        print("Invalid API key. Please make sure you have added your API key in the \"CIRCLEGUARD_API_KEY\" section "
+              "of the .env file.")
     else:
-        post += " UR "
+        if "DT" in str(score.mods) or "HT" in str(score.mods):
+            post += " cv. UR "
+        else:
+            post += " UR "
 
 print(post)
 try:
