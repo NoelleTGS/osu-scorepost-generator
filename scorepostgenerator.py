@@ -69,12 +69,12 @@ gamemode = input("Mode (osu, taiko, fruits, mania): ")
 inputMode = input("User or score: ")
 if inputMode == "user":
     currentUser = input("Enter a username: ")
-    mode = input("Best or recent: ")
     try:
         currentUser = api.user(currentUser)
     except ValueError:
         print("User not found.")
         exit()
+    mode = input("Best or recent: ")
 
     try:
         score = api.user_scores(currentUser.id, mode, include_fails=True, mode=gamemode, limit=1)[0]
