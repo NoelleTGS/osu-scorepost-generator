@@ -75,9 +75,12 @@ if inputMode == "user":
         print("User not found.")
         exit()
     mode = input("Best or recent: ")
+    fails = input("Consider fails? (Y/n) ")
+    if fails == "Y" or fails == "y" or fails == "": fails = True
+    if fails == "N" or fails == "n": fails = False
 
     try:
-        score = api.user_scores(currentUser.id, mode, include_fails=True, mode=gamemode, limit=1)[0]
+        score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1)[0]
     except IndexError:
         print("No scores found.")
         exit()
