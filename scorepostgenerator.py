@@ -13,7 +13,7 @@ dotenv.load_dotenv()
 
 cg = Circleguard(os.getenv("CIRCLEGUARD_API_KEY"))
 
-client_id = os.getenv("OSU_CLIENT_ID")
+client_id = int(os.getenv("OSU_CLIENT_ID"))
 client_secret = os.getenv("OSU_CLIENT_SECRET")
 callback_url = "http://localhost:727/"
 try:
