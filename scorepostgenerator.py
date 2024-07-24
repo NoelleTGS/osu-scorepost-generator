@@ -17,6 +17,7 @@ client_id = os.getenv("OSU_CLIENT_ID")
 client_secret = os.getenv("OSU_CLIENT_SECRET")
 callback_url = "http://localhost:727/"
 api = Ossapi(client_id, client_secret, callback_url)
+legacy_only = os.getenv("LEGACY_ONLY")
 
 
 def acc_if_fc(score):
@@ -83,7 +84,7 @@ if inputMode == "user":
         fails = True
 
     try:
-        score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1)[0]
+        score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_only)[0]
     except IndexError:
         print("No scores found.")
         exit()
@@ -120,7 +121,7 @@ if score.statistics.count_miss > 0: post += str(score.statistics.count_miss) + "
 if not score.passed:
     post += "FAIL "
 
-leaderboard = api.beatmap_scores(beatmap_id=score.beatmap.id).scores
+leaderboard = api.beatmap_scores(beatmap_id=score.beatmap.id, legacy_only=legacy_only).scores
 for index, item in enumerate(leaderboard):
     if item.id == score.best_id:
         post += "#" + str(index + 1) + " "
