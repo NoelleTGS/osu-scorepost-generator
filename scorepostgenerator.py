@@ -144,7 +144,7 @@ if score.pp is None:
 else:
     pp = score.pp
 if beatmap.status == RankStatus.RANKED:
-    if score.passed:
+    if score.passed and score.pp is not None:
         post += str(round(pp)) + "pp "
     else:
         post += str(round(pp)) + "pp if submitted "
