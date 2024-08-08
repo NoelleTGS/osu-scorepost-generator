@@ -23,7 +23,7 @@ A generator for r/osugame-styled osu! scoreposts.
 > ```
 **Set up environment variables:**
 
-> Go to your [osu! settings page](https://osu.ppy.sh/home/account/edit) and click "New OAuth Application" near the bottom, give it any name you want, and add "http://localhost:727/" as a callback URL.
+> Go to your [osu! settings page](https://osu.ppy.sh/home/account/edit) and click "New OAuth Application" near the bottom, give it any name you want, and add "http://localhost:7270/" as a callback URL.
 >
 > Under the "Legacy API" tab, create an API key if you haven't already.
 >
