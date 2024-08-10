@@ -141,6 +141,8 @@ if score.replay:
     except InvalidKeyException:
         print("Invalid API key. Please make sure you have added your API key in the \"CIRCLEGUARD_API_KEY\" section "
               "of the .env file.")
+    except TypeError:
+        print("An error occurred while fetching UR. UR for modes other than osu!std is not currently available.")
     else:
         if "DT" in str(score.mods) or "HT" in str(score.mods):
             post += " cv. UR "
