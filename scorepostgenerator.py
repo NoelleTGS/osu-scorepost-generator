@@ -120,7 +120,12 @@ post = ""
 post += currentUser.username + " | "
 post += score.beatmapset.artist + " - " + score.beatmapset.title + " [" + beatmap.version + "] "
 post += "(" + score.beatmapset.creator + ", " + str(star) + "*) "
-if str(score.mods) != "NM": post += "+" + str(score.mods) + " "
+
+# This is disgusting. I hope all you CL haters are happy.
+# Yes I know there are better ways to do this, I'm leaving it like this to prove a point.
+if not (len(score_osupy.mods) == 1 and score_osupy.mods[0].mod.value == 'CL'):
+    post += "+" + "".join(mod.mod.value for mod in score_osupy.mods if mod.mod.value != 'CL') + " "
+
 accuracy = "%.2f" % round(score.accuracy * 100, 2)
 if accuracy == "100.00":
     post += "SS "
