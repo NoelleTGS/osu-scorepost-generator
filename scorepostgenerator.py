@@ -124,6 +124,7 @@ star = "%.2f" % round(
 maxcombo = beatmap.max_combo
 
 post = ""
+if score.mode.value != 'osu': post += "[osu!" + str(score.mode.name.lower()) + "] "
 post += currentUser.username + " | "
 post += score.beatmapset.artist + " - " + score.beatmapset.title + " [" + beatmap.version + "] "
 post += "(" + score.beatmapset.creator + ", " + str(star) + "*) "
