@@ -72,6 +72,13 @@ def calculatePP(function, score, maxcombo):
         print("Error occurred: %s : %s" % ("osu", x.strerror))
     return perf.pp
 
+def mod_sort(mod):
+    mod_order = ['EZ', 'HD', 'DT', 'NC', 'HT', 'DC', 'HR', 'SD', 'PF', 'FL', 'RX', 'AP']
+    if mod in mod_order:
+        return mod_order.index(mod)
+    else:
+        return len(mod_order)
+
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
 inputMode = input("User or score: ")
@@ -122,16 +129,21 @@ post += score.beatmapset.artist + " - " + score.beatmapset.title + " [" + beatma
 post += "(" + score.beatmapset.creator + ", " + str(star) + "*) "
 
 # This is utterly disgusting.
-if not (len(score_osupy.mods) == 1 and score_osupy.mods[0].mod.value == 'CL'):
+score_mods = []
+for mod in score_osupy.mods:
+    score_mods.append((mod.mod.value, mod.settings))
+score_mods.sort(key=lambda mod: mod_sort(mod[0]))
+
+if not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
     post += "+"
-    for mod in score_osupy.mods:
-        if mod.mod.value in ['DT', 'HT', 'NC', 'DC']:
-            if mod.settings and 'speed_change' in mod.settings:
-                post += f"{mod.mod.value}({mod.settings['speed_change']}x)"
+    for mod in score_mods:
+        if mod[0] in ['DT', 'HT', 'NC', 'DC']:
+            if mod[1] and 'speed_change' in mod[1]:
+                post += f"{mod[0]}({mod[1]['speed_change']}x)"
             else:
-                post += mod.mod.value
-        elif mod.mod.value != 'CL':
-            post += mod.mod.value
+                post += mod[0]
+        elif mod[0] != 'CL':
+            post += mod[0]
     post += " "
 
 accuracy = "%.2f" % round(score.accuracy * 100, 2)
