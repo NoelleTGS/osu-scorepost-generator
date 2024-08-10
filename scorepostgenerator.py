@@ -1,5 +1,6 @@
 from ossapi import Ossapi
 from ossapi.enums import RankStatus
+from osu import Client
 from rosu_pp_py import Beatmap, Calculator
 import dotenv
 import requests
@@ -23,6 +24,7 @@ except PermissionError:
           "secret in the .env file.")
     quit()
 legacy_only = os.getenv("LEGACY_ONLY")
+api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
 
 
 def acc_if_fc(score):
@@ -105,6 +107,10 @@ else:
     print("Invalid entry.")
     quit()
 
+try:
+    score_osupy = api_osupy.get_score_by_id_only(score.id)
+except requests.exceptions.HTTPError:
+    score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
 star = "%.2f" % round(
     api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=gamemode).attributes.star_rating, 2)

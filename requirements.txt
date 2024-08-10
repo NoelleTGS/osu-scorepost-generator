@@ -4,3 +4,4 @@ pyperclip~=1.9.0
 ossapi~=4.0.0
 circleguard~=5.4.1
 rosu-pp-py==0.9.4
+osu.py~=2.2.1
