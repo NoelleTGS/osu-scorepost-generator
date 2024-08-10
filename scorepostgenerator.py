@@ -1,7 +1,7 @@
 from ossapi import Ossapi
 from ossapi.enums import RankStatus
 from osu import Client
-from rosu_pp_py import Beatmap, Calculator
+from rosu_pp_py import Beatmap, Performance
 import dotenv
 import requests
 import os
@@ -46,26 +46,26 @@ def calculatePP(function, score, maxcombo):
     if maxcombo == 0: return 0
     downloadmap(score)
     mapfile = Beatmap(path="osu.osu")
-    calc = Calculator(mods=score.mods.value)
+    calc = Performance(mods=score.mods.value)
     if function == "curr":
         print("Calculating score PP...")
-        calc.set_acc(score.accuracy * 100)
-        calc.set_n_misses(score.statistics.count_miss)
+        calc.set_accuracy(score.accuracy * 100)
+        calc.set_misses(score.statistics.count_miss)
         calc.set_combo(score.max_combo)
     elif function == "fc":
         print("Calculating PP if FC...")
-        calc.set_acc(acc_if_fc(score))
-        calc.set_n_misses(0)
+        calc.set_accuracy(acc_if_fc(score))
+        calc.set_misses(0)
         calc.set_combo(maxcombo)
     elif function == "ss":
         print("Calculating PP if SS...")
-        calc.set_acc(100.00)
-        calc.set_n_misses(0)
+        calc.set_accuracy(100.00)
+        calc.set_misses(0)
         calc.set_combo(maxcombo)
     else:
         print("Invalid entry.")
         quit()
-    perf = calc.performance(mapfile)
+    perf = calc.calculate(mapfile)
     try:
         os.remove("osu.osu")
     except OSError as x:
