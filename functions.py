@@ -1,13 +1,20 @@
+import ossapi
 import requests
 import os
 from rosu_pp_py import Beatmap, Performance
 
 
 def acc_if_fc(score):
-    count300 = score.statistics.count_300
-    count100 = score.statistics.count_100
-    count50 = score.statistics.count_50
-    acc = (300 * count300 + 100 * count100 + 50 * count50) / (300 * (count300 + count100 + count50))
+    match score.mode:
+        case ossapi.GameMode.OSU:
+            count300 = score.statistics.count_300
+            count100 = score.statistics.count_100
+            count50 = score.statistics.count_50
+            acc = (300 * count300 + 100 * count100 + 50 * count50) / (300 * (count300 + count100 + count50))
+        case ossapi.GameMode.TAIKO:
+            count300 = score.statistics.count_300
+            count100 = score.statistics.count_100
+            acc = (count300 + 0.5 * count100) / (count300 + count100)
     return acc * 100
 
 
