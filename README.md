@@ -40,4 +40,5 @@ I don't have a clue what I'm doing so pull requests are open if you notice any g
 
 ## Acknowledgements
 - [tybug](https://github.com/tybug) for [ossapi](https://github.com/tybug/ossapi) and [Circlecore](https://github.com/circleguard/circlecore), used for everything to do with the API and UR calculation
+- [Sheppsu](https://github.com/Sheppsu) for [osu.py](https://github.com/Sheppsu/osu.py), used for non-legacy API functions
 - [MaxOhn](https://github.com/MaxOhn) for [rosu-pp](https://github.com/MaxOhn/rosu-pp), used for PP calculation
