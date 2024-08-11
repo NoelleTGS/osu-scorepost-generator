@@ -81,7 +81,7 @@ for mod in score_osupy.mods:
     score_mods.append((mod.mod.value, mod.settings))
 score_mods.sort(key=lambda mod: mod_sort(mod[0]))
 
-if not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
+if score_mods and not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
     post += "+"
     for mod in score_mods:
         if mod[0] in ['DT', 'HT', 'NC', 'DC']:
