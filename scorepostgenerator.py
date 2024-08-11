@@ -136,7 +136,7 @@ if beatmap.status == RankStatus.RANKED:
 else:
     post += str(round(pp)) + "pp if ranked "
 if not score.perfect:
-    post += "(" + str(int(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
+    post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
 
 if score.replay:
     try:
