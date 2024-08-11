@@ -12,7 +12,7 @@ from functions import calculate_pp, mod_sort
 
 dotenv.load_dotenv()
 
-cg = Circleguard(os.getenv("CIRCLEGUARD_API_KEY"))
+cg = Circleguard(os.getenv("OSU_API_KEY"))
 
 client_id = int(os.getenv("OSU_CLIENT_ID"))
 client_secret = os.getenv("OSU_CLIENT_SECRET")
@@ -23,7 +23,7 @@ except PermissionError:
     print("Error connecting to your OAuth client. Please make sure you have included the correct client ID and client "
           "secret in the .env file.")
     quit()
-legacy_only = os.getenv("LEGACY_ONLY")
+legacy_mode = os.getenv("LEGACY_MODE")
 api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
@@ -44,7 +44,7 @@ if inputMode == "user":
         fails = True
 
     try:
-        score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_only)[0]
+        score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_mode)[0]
     except IndexError:
         print("No scores found.")
         exit()
@@ -114,7 +114,7 @@ if score.statistics.count_miss > 0: post += str(score.statistics.count_miss) + "
 if not score.passed:
     post += "FAIL "
 
-leaderboard = api.beatmap_scores(beatmap_id=score.beatmap.id, legacy_only=legacy_only).scores
+leaderboard = api.beatmap_scores(beatmap_id=score.beatmap.id, legacy_only=legacy_mode).scores
 for index, item in enumerate(leaderboard):
     if item.id == score.best_id:
         post += "#" + str(index + 1) + " "
@@ -146,7 +146,7 @@ if score.replay:
     try:
         post += "| " + str("%.2f" % round(cg.ur(replay), 2))
     except InvalidKeyException:
-        print("Invalid API key. Please make sure you have added your API key in the \"CIRCLEGUARD_API_KEY\" section "
+        print("Invalid API key. Please make sure you have added your API key in the \"OSU_API_KEY\" section "
               "of the .env file.")
     except TypeError:
         print("An error occurred while fetching UR. UR for modes other than osu!std is not currently available.")
