@@ -18,11 +18,11 @@ def downloadmap(score):
     open('osu.osu', 'wb').write(r.content)
 
 
-def calculate_pp(function, score, maxcombo):
+def calculate_pp(function, score, maxcombo, mods):
     if maxcombo == 0: return 0
     downloadmap(score)
     mapfile = Beatmap(path="osu.osu")
-    calc = Performance(mods=score.mods.value)
+    calc = Performance(mods=mods)
     if function == "curr":
         print("Calculating score PP...")
         calc.set_accuracy(score.accuracy * 100)

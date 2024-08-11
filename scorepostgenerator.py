@@ -93,6 +93,13 @@ if not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
             post += mod[0]
     post += " "
 
+lazermods = []
+for mod in score_osupy.mods:
+    if mod.settings:
+        lazermods.append({'acronym': mod.mod.value, 'settings': mod.settings})
+    else:
+        lazermods.append({'acronym': mod.mod.value})
+
 accuracy = "%.2f" % round(score.accuracy * 100, 2)
 if accuracy == "100.00":
     post += "SS "
@@ -118,7 +125,7 @@ if beatmap.status == RankStatus.LOVED: post += "💖 "
 post += "| "
 
 if score.pp is None:
-    pp = calculate_pp("curr", score, maxcombo)
+    pp = calculate_pp("curr", score, maxcombo, lazermods)
 else:
     pp = score.pp
 if beatmap.status == RankStatus.RANKED:
@@ -129,7 +136,7 @@ if beatmap.status == RankStatus.RANKED:
 else:
     post += str(round(pp)) + "pp if ranked "
 if not score.perfect:
-    post += "(" + str(int(calculate_pp("fc", score, maxcombo))) + "pp if FC) "
+    post += "(" + str(int(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
 
 if score.replay:
     try:
