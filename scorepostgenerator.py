@@ -45,6 +45,7 @@ if inputMode == "user":
 
     try:
         score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_mode)[0]
+        score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
     except IndexError:
         print("No scores found.")
         exit()
@@ -53,6 +54,7 @@ elif inputMode == "score":
     try:
         score = api.score(scoreID)
         currentUser = api.user(score.user())
+        score_osupy = api_osupy.get_score_by_id_only(score.id)
     except IndexError:
         print("Score not found.")
         exit()
@@ -60,10 +62,7 @@ else:
     print("Invalid entry.")
     quit()
 
-try:
-    score_osupy = api_osupy.get_score_by_id_only(score.id)
-except requests.exceptions.HTTPError:
-    score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
+
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
 star = "%.2f" % round(
     api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=gamemode).attributes.star_rating, 2)
