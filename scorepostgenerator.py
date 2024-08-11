@@ -100,6 +100,9 @@ for mod in score_osupy.mods:
     else:
         lazermods.append({'acronym': mod.mod.value})
 
+if score.max_combo > (beatmap.max_combo * 0.99):
+    score.perfect = True
+
 accuracy = "%.2f" % round(score.accuracy * 100, 2)
 if accuracy == "100.00":
     post += "SS "
