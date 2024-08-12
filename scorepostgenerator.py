@@ -2,7 +2,6 @@ from ossapi import Ossapi
 from ossapi.enums import RankStatus
 from osu import Client
 import dotenv
-import requests
 import os
 from sys import exit
 import pyperclip as pc
@@ -38,8 +37,10 @@ if inputMode == "user":
     mode = input("Best or recent: ")
     if mode == "recent":
         fails = input("Consider fails? (Y/n) ")
-        if fails == "Y" or fails == "y" or fails == "": fails = True
-        if fails == "N" or fails == "n": fails = False
+        if fails == "Y" or fails == "y" or fails == "":
+            fails = True
+        if fails == "N" or fails == "n":
+            fails = False
     else:
         fails = True
 
@@ -69,7 +70,8 @@ star = "%.2f" % round(
 maxcombo = beatmap.max_combo
 
 post = ""
-if score.mode.value != 'osu': post += "[osu!" + str(score.mode.name.lower()) + "] "
+if score.mode.value != 'osu':
+    post += "[osu!" + str(score.mode.name.lower()) + "] "
 post += currentUser.username + " | "
 post += score.beatmapset.artist + " - " + score.beatmapset.title + " [" + beatmap.version + "] "
 post += "(" + score.beatmapset.creator + ", " + str(star) + "*) "
@@ -112,7 +114,8 @@ if score.perfect:
         post += "FC "
 else:
     post += str(score.max_combo) + "/" + str(beatmap.max_combo) + " "
-if score.statistics.count_miss > 0: post += str(score.statistics.count_miss) + "xMiss "
+if score.statistics.count_miss > 0:
+    post += str(score.statistics.count_miss) + "xMiss "
 if not score.passed:
     post += "FAIL "
 
@@ -122,7 +125,8 @@ for index, item in enumerate(leaderboard):
         post += "#" + str(index + 1) + " "
         break
 
-if beatmap.status == RankStatus.LOVED: post += "💖 "
+if beatmap.status == RankStatus.LOVED:
+    post += "💖 "
 
 post += "| "
 
@@ -143,7 +147,7 @@ if not score.perfect:
 if score.replay:
     try:
         replay = ReplayOssapi(api.download_score(score.id))
-    except:
+    except Exception:
         replay = ReplayOssapi(api.download_score_mode(score.mode, score.id))
     try:
         post += "| " + str("%.2f" % round(cg.ur(replay), 2))
@@ -162,7 +166,7 @@ print(post)
 try:
     pc.copy(post)
     print("Copied to clipboard.")
-except:
+except pc.PyperclipException:
     print("An error occurred when coping to clipboard. If you're using Linux, make sure you have either xsel or xclip "
           "installed.")
 
