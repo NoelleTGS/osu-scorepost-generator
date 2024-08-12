@@ -152,7 +152,7 @@ if not score.perfect:
 
 if score.replay and score.mode.value == "osu":
     try:
-        replay = ReplayOssapi(api.download_score(score.id))
+        replay = ReplayOssapi(api.download_score(scoreID))
     except Exception:
         replay = ReplayOssapi(api.download_score_mode(score.mode, score.id))
     try:
