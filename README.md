@@ -35,6 +35,10 @@ A generator for r/osugame-styled osu! scoreposts.
 > ```
 > The first time you run the script (or if you haven't run it in a while), it will make you authenticate on the osu! website.
 
+## Important Info
+> [!NOTE]
+> In osu!standard, as there is still no way to reliably differentiate between an S-rank with sliderbreaks and an FC with missed sliderends (tracked in https://github.com/NoelleTGS/osu-scorepost-generator/issues/10), an approximation is made where if the max combo of the play is more than 99% of the max combo of the beatmap, the score is counted as an FC. I have found very few instances where this ends up being incorrect, but if you find any more or know a better way to do this, feel free to post in the linked issue.
+
 ## Contributing
 I don't have a clue what I'm doing so pull requests are open if you notice any glaring flaws in my code.
 
