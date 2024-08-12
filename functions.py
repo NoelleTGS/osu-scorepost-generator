@@ -15,6 +15,13 @@ def acc_if_fc(score):
             count300 = score.statistics.count_300
             count100 = score.statistics.count_100
             acc = (count300 + 0.5 * count100) / (count300 + count100)
+        case ossapi.GameMode.CATCH:
+            countFruit = score.statistics.count_300
+            countDrops = score.statistics.count_100
+            countDroplets = score.statistics.count_50
+            missed = score.statistics.count_miss
+            acc = countFruit + countDrops + countDroplets
+            acc /= (acc + missed)
     return acc * 100
 
 
