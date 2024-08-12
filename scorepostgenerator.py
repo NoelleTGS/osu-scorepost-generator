@@ -150,7 +150,7 @@ if not score.perfect:
     else:
         post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
 
-if score.replay:
+if score.replay and score.mode.value == "osu":
     try:
         replay = ReplayOssapi(api.download_score(score.id))
     except Exception:
@@ -160,8 +160,6 @@ if score.replay:
     except InvalidKeyException:
         print("Invalid API key. Please make sure you have added your API key in the \"OSU_API_KEY\" section "
               "of the .env file.")
-    except TypeError:
-        print("An error occurred while fetching UR. UR for modes other than osu!std is not currently available.")
     else:
         if "DT" in str(score.mods) or "HT" in str(score.mods):
             post += " cv. UR "
