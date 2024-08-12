@@ -131,7 +131,10 @@ if beatmap.status == RankStatus.LOVED:
 post += "| "
 
 if score.pp is None:
-    pp = calculate_pp("curr", score, maxcombo, lazermods)
+    if score.beatmap.convert:
+        pp = calculate_pp("curr", score, maxcombo, lazermods, score.mode.value)
+    else:
+        pp = calculate_pp("curr", score, maxcombo, lazermods)
 else:
     pp = score.pp
 if beatmap.status == RankStatus.RANKED:
@@ -142,7 +145,10 @@ if beatmap.status == RankStatus.RANKED:
 else:
     post += str(round(pp)) + "pp if ranked "
 if not score.perfect:
-    post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
+    if score.beatmap.convert:
+        post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods, score.mode.value))) + "pp if FC) "
+    else:
+        post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
 
 if score.replay:
     try:

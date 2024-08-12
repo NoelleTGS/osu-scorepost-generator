@@ -1,7 +1,7 @@
 import ossapi
 import requests
 import os
-from rosu_pp_py import Beatmap, Performance
+from rosu_pp_py import Beatmap, Performance, GameMode
 
 
 def acc_if_fc(score):
@@ -25,11 +25,19 @@ def downloadmap(score):
     open('osu.osu', 'wb').write(r.content)
 
 
-def calculate_pp(function, score, maxcombo, mods):
+def calculate_pp(function, score, maxcombo, mods, convert=None):
     if maxcombo == 0: return 0
     downloadmap(score)
     mapfile = Beatmap(path="osu.osu")
     calc = Performance(mods=mods)
+    if convert:
+        match convert:
+            case "taiko":
+                mapfile.convert(GameMode.Taiko)
+            case "fruits":
+                mapfile.convert(GameMode.Catch)
+            case "mania":
+                mapfile.convert(GameMode.Mania)
     if function == "curr":
         print("Calculating score PP...")
         calc.set_accuracy(score.accuracy * 100)
