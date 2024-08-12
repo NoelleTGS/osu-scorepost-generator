@@ -55,7 +55,7 @@ elif inputMode == "score":
     try:
         score = api.score(scoreID)
         currentUser = api.user(score.user())
-        score_osupy = api_osupy.get_score_by_id_only(score.id)
+        score_osupy = api_osupy.get_score_by_id_only(scoreID)
     except IndexError:
         print("Score not found.")
         exit()
