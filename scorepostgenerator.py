@@ -26,8 +26,8 @@ legacy_mode = os.getenv("LEGACY_MODE")
 api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
-inputMode = input("User or score: ")
-if inputMode == "user":
+input_mode = input("User or score: ")
+if input_mode == "user":
     currentUser = input("Enter a username: ")
     try:
         currentUser = api.user(currentUser)
@@ -50,7 +50,7 @@ if inputMode == "user":
     except IndexError:
         print("No scores found.")
         exit()
-elif inputMode == "score":
+elif input_mode == "score":
     scoreID = int(input("Enter score ID: "))
     try:
         score = api.score(scoreID)
@@ -66,7 +66,7 @@ else:
 attributes = api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=score.mode).attributes
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
 star = "%.2f" % round(attributes.star_rating, 2)
-maxcombo = attributes.max_combo
+max_combo = attributes.max_combo
 
 post = ""
 if score.mode.value != 'osu':
@@ -93,31 +93,31 @@ if score_mods and not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
             post += mod[0]
     post += " "
 
-lazermods = []
+lazer_mods = []
 for mod in score_osupy.mods:
     if mod.settings:
-        lazermods.append({'acronym': mod.mod.value, 'settings': mod.settings})
+        lazer_mods.append({'acronym': mod.mod.value, 'settings': mod.settings})
     else:
-        lazermods.append({'acronym': mod.mod.value})
+        lazer_mods.append({'acronym': mod.mod.value})
 
-if score.statistics.count_miss == 0 and score.max_combo > (maxcombo * 0.99) and score.mode.value == 'osu':
+if score.statistics.count_miss == 0 and score.max_combo > (max_combo * 0.99) and score.mode.value == 'osu':
     score.perfect = True
 
 if score.mode.value == 'mania' and bool(legacy_mode):
-    rawacc = score.accuracy
+    raw_acc = score.accuracy
 else:
-    rawacc = score_osupy.accuracy
-accuracy = "%.2f" % round(rawacc * 100, 2)
+    raw_acc = score_osupy.accuracy
+accuracy = "%.2f" % round(raw_acc * 100, 2)
 if accuracy == "100.00":
     post += "SS "
 else:
-    post += "%.2f" % round(rawacc * 100, 2) + "% "
+    post += "%.2f" % round(raw_acc * 100, 2) + "% "
 if score.perfect:
     if accuracy != "100.00":
         post += "FC "
 else:
     if score.mode.value != 'mania':
-        post += str(score.max_combo) + "/" + str(maxcombo) + " "
+        post += str(score.max_combo) + "/" + str(max_combo) + " "
 if score.statistics.count_miss > 0:
     post += str(score.statistics.count_miss) + "xMiss "
 if not score.passed:
@@ -136,9 +136,9 @@ post += "| "
 
 if score.pp is None:
     if score.beatmap.convert:
-        pp = calculate_pp("curr", score, maxcombo, lazermods, score.mode.value)
+        pp = calculate_pp("curr", score, max_combo, lazer_mods, score.mode.value)
     else:
-        pp = calculate_pp("curr", score, maxcombo, lazermods)
+        pp = calculate_pp("curr", score, max_combo, lazer_mods)
 else:
     pp = score.pp
 if beatmap.status == RankStatus.RANKED:
@@ -150,9 +150,9 @@ else:
     post += str(round(pp)) + "pp if ranked "
 if not score.perfect and score.mode.value != 'mania':
     if score.beatmap.convert:
-        post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods, score.mode.value))) + "pp if FC) "
+        post += "(" + str(round(calculate_pp("fc", score, max_combo, lazer_mods, score.mode.value))) + "pp if FC) "
     else:
-        post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods))) + "pp if FC) "
+        post += "(" + str(round(calculate_pp("fc", score, max_combo, lazer_mods))) + "pp if FC) "
 
 if score.replay and score.mode.value == "osu":
     try:
