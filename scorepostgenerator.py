@@ -104,11 +104,16 @@ for mod in score_osupy.mods:
 if score.statistics.count_miss == 0 and score.max_combo > (maxcombo * 0.99):
     score.perfect = True
 
-accuracy = "%.2f" % round(score_osupy.accuracy * 100, 2)
+if score.mode.value == 'mania' and bool(legacy_mode):
+    print("Using legacy acc")
+    rawacc = score.accuracy
+else:
+    rawacc = score_osupy.accuracy
+accuracy = "%.2f" % round(rawacc * 100, 2)
 if accuracy == "100.00":
     post += "SS "
 else:
-    post += "%.2f" % round(score_osupy.accuracy * 100, 2) + "% "
+    post += "%.2f" % round(rawacc * 100, 2) + "% "
 if score.perfect:
     if accuracy != "100.00":
         post += "FC "
