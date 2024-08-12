@@ -105,7 +105,6 @@ if score.statistics.count_miss == 0 and score.max_combo > (maxcombo * 0.99):
     score.perfect = True
 
 if score.mode.value == 'mania' and bool(legacy_mode):
-    print("Using legacy acc")
     rawacc = score.accuracy
 else:
     rawacc = score_osupy.accuracy
