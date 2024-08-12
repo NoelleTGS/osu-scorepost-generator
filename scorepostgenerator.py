@@ -87,7 +87,7 @@ for mod in score_osupy.mods:
     score_mods.append((mod.mod.value, mod.settings))
 score_mods.sort(key=lambda mod: mod_sort(mod[0]))
 
-if score_mods and not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
+if score_mods and (not (len(score_mods) == 1 and score_mods[0][0] == 'CL') or score_osupy.build_id is not None):
     post += "+"
     for mod in score_mods:
         if mod[0] in ['DT', 'HT', 'NC', 'DC']:
@@ -95,7 +95,7 @@ if score_mods and not (len(score_mods) == 1 and score_mods[0][0] == 'CL'):
                 post += f"{mod[0]}({mod[1]['speed_change']}x)"
             else:
                 post += mod[0]
-        elif mod[0] != 'CL':
+        elif mod[0] != 'CL' or score_osupy.build_id is not None:
             post += mod[0]
     post += " "
 
