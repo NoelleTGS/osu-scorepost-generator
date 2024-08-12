@@ -1,3 +1,4 @@
+import requests.exceptions
 from ossapi import Ossapi
 from ossapi.enums import RankStatus
 from osu import Client
@@ -46,10 +47,15 @@ if input_mode == "user":
 
     try:
         score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_mode)[0]
-        score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
     except IndexError:
         print("No scores found.")
         exit()
+    try:
+        score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
+        scoreID = score.id
+    except requests.exceptions.HTTPError:
+        score_osupy = api_osupy.get_score_by_id_only(score.id)
+        scoreID = score.id
 elif input_mode == "score":
     scoreID = int(input("Enter score ID: "))
     try:
