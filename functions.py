@@ -22,6 +22,14 @@ def acc_if_fc(score):
             missed = score.statistics.count_miss
             acc = countFruit + countDrops + countDroplets
             acc /= (acc + missed)
+        case ossapi.GameMode.MANIA:
+            countMAX = score.statistics.count_geki
+            count300 = score.statistics.count_300
+            count200 = score.statistics.count_katu
+            count100 = score.statistics.count_100
+            count50 = score.statistics.count_50
+            acc = 300 * (countMAX + count300) + 200 * count200 + 100 * count100 + 50 * count50
+            acc /= 300 * (countMAX + count300 + count200 + count100 + count50)
     return acc * 100
 
 
