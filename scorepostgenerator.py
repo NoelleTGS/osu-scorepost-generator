@@ -63,11 +63,10 @@ else:
     print("Invalid entry.")
     quit()
 
-
+attributes = api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=score.mode).attributes
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
-star = "%.2f" % round(
-    api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=gamemode).attributes.star_rating, 2)
-maxcombo = api.beatmap_attributes(beatmap_id=score.beatmap.id, ruleset=score.mode, mods=score.mods).attributes.max_combo
+star = "%.2f" % round(attributes.star_rating, 2)
+maxcombo = attributes.max_combo
 
 post = ""
 if score.mode.value != 'osu':
