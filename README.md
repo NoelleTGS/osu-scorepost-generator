@@ -9,7 +9,7 @@ A generator for r/osugame-styled osu! scoreposts.
 - Automatically copy title to your clipboard, and optionally open r/osugame submission page
 
 > [!NOTE]
-> Only osu!standard is currently supported.
+> All modes are supported, but modes other than osu!standard might be missing features or have bugs. Feel free to report any problems in the issues tab.
 
 ## Getting Started
 **Clone the repository:**
