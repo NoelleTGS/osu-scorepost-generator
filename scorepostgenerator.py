@@ -67,7 +67,7 @@ else:
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
 star = "%.2f" % round(
     api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=gamemode).attributes.star_rating, 2)
-maxcombo = beatmap.max_combo
+maxcombo = api.beatmap_attributes(beatmap_id=score.beatmap.id, ruleset=score.mode, mods=score.mods).attributes.max_combo
 
 post = ""
 if score.mode.value != 'osu':
@@ -101,7 +101,7 @@ for mod in score_osupy.mods:
     else:
         lazermods.append({'acronym': mod.mod.value})
 
-if score.statistics.count_miss == 0 and score.max_combo > (beatmap.max_combo * 0.99):
+if score.statistics.count_miss == 0 and score.max_combo > (maxcombo * 0.99):
     score.perfect = True
 
 accuracy = "%.2f" % round(score_osupy.accuracy * 100, 2)
@@ -113,7 +113,7 @@ if score.perfect:
     if accuracy != "100.00":
         post += "FC "
 else:
-    post += str(score.max_combo) + "/" + str(beatmap.max_combo) + " "
+    post += str(score.max_combo) + "/" + str(maxcombo) + " "
 if score.statistics.count_miss > 0:
     post += str(score.statistics.count_miss) + "xMiss "
 if not score.passed:
