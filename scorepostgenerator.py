@@ -101,7 +101,7 @@ for mod in score_osupy.mods:
     else:
         lazermods.append({'acronym': mod.mod.value})
 
-if score.statistics.count_miss == 0 and score.max_combo > (maxcombo * 0.99):
+if score.statistics.count_miss == 0 and score.max_combo > (maxcombo * 0.99) and score.mode.value == 'osu':
     score.perfect = True
 
 if score.mode.value == 'mania' and bool(legacy_mode):
