@@ -118,7 +118,8 @@ if score.perfect:
     if accuracy != "100.00":
         post += "FC "
 else:
-    post += str(score.max_combo) + "/" + str(maxcombo) + " "
+    if score.mode.value != 'mania':
+        post += str(score.max_combo) + "/" + str(maxcombo) + " "
 if score.statistics.count_miss > 0:
     post += str(score.statistics.count_miss) + "xMiss "
 if not score.passed:
@@ -149,7 +150,7 @@ if beatmap.status == RankStatus.RANKED:
         post += str(round(pp)) + "pp if submitted "
 else:
     post += str(round(pp)) + "pp if ranked "
-if not score.perfect:
+if not score.perfect and score.mode.value != 'mania':
     if score.beatmap.convert:
         post += "(" + str(round(calculate_pp("fc", score, maxcombo, lazermods, score.mode.value))) + "pp if FC) "
     else:
