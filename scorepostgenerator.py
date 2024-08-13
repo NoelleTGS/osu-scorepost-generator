@@ -27,6 +27,9 @@ legacy_mode = os.getenv("LEGACY_MODE")
 api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
+if gamemode not in ["osu", "taiko", "fruits", "mania"]:
+    print("Invalid mode.")
+    exit()
 input_mode = input("User or score: ")
 if input_mode == "user":
     currentUser = input("Enter a username: ")
