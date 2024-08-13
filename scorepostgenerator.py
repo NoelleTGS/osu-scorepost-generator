@@ -50,6 +50,9 @@ if input_mode == "user":
     except IndexError:
         print("No scores found.")
         exit()
+    except ValueError:
+        print("Invalid score type. Please enter \"best\" or \"recent\".")
+        exit()
     try:
         score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
         scoreID = score.id
