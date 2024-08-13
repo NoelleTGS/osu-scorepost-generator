@@ -163,7 +163,7 @@ if not score.perfect and score.mode.value != 'mania':
 if score.replay and score.mode.value == "osu":
     try:
         replay = ReplayOssapi(api.download_score(scoreID))
-    except NameError:
+    except (NameError, ValueError):
         replay = ReplayOssapi(api.download_score_mode(score.mode, score.id))
     try:
         post += "| " + str("%.2f" % round(cg.ur(replay), 2))
