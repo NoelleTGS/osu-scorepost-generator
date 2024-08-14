@@ -4,7 +4,7 @@ from ossapi.enums import RankStatus
 from osu import Client
 import dotenv
 import os
-from sys import exit
+import sys
 import pyperclip as pc
 from circleguard import *
 import webbrowser
@@ -20,7 +20,8 @@ try:
 except (TypeError, ValueError):
     print("An error occurred while setting environment variables. Ensure you have the .env file in the same directory "
           "as the script, and that all variables are filled in.")
-    exit()
+    input("\nPress Enter to quit...")
+    sys.exit()
 
 callback_url = "http://localhost:7270/"
 try:
@@ -28,13 +29,15 @@ try:
 except PermissionError:
     print("Error connecting to your OAuth client. Please make sure you have included the correct client ID and client "
           "secret in the .env file.")
-    quit()
+    input("\nPress Enter to quit...")
+    sys.exit()
 api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
 if gamemode not in ["osu", "taiko", "fruits", "mania"]:
     print("Invalid mode.")
-    exit()
+    input("\nPress Enter to quit...")
+    sys.exit()
 input_mode = input("User or score: ")
 if input_mode == "user":
     currentUser = input("Enter a username: ")
@@ -42,7 +45,8 @@ if input_mode == "user":
         currentUser = api.user(currentUser)
     except ValueError:
         print("User not found.")
-        exit()
+        input("\nPress Enter to quit...")
+        sys.exit()
     mode = input("Best or recent: ")
     if mode == "recent":
         fails = input("Consider fails? (Y/n) ")
@@ -57,10 +61,12 @@ if input_mode == "user":
         score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_mode)[0]
     except IndexError:
         print("No scores found.")
-        exit()
+        input("\nPress Enter to quit...")
+        sys.exit()
     except ValueError:
         print("Invalid score type. Please enter \"best\" or \"recent\".")
-        exit()
+        input("\nPress Enter to quit...")
+        sys.exit()
     try:
         score_osupy = api_osupy.get_score_by_id(score.mode.value, score.id)
         scoreID = score.id
@@ -75,10 +81,12 @@ elif input_mode == "score":
         score_osupy = api_osupy.get_score_by_id_only(scoreID)
     except IndexError:
         print("Score not found.")
-        exit()
+        input("\nPress Enter to quit...")
+        sys.exit()
 else:
     print("Invalid entry.")
-    quit()
+    input("\nPress Enter to quit...")
+    sys.exit()
 
 attributes = api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=score.mode).attributes
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
