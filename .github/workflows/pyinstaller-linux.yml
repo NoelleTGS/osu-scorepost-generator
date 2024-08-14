@@ -42,6 +42,11 @@ jobs:
           cd ./dist/linux
           zip -r scorepostgenerator-linux.zip *
 
+      - name: Delete binary
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: scorepostgenerator
+
       - name: Upload release
         uses: actions/upload-artifact@v4
         with:
