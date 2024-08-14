@@ -12,10 +12,16 @@ from functions import calculate_pp, mod_sort
 
 dotenv.load_dotenv()
 
-cg = Circleguard(os.getenv("OSU_API_KEY"))
+try:
+    cg = Circleguard(os.getenv("OSU_API_KEY"))
+    client_id = int(os.getenv("OSU_CLIENT_ID"))
+    client_secret = os.getenv("OSU_CLIENT_SECRET")
+    legacy_mode = os.getenv("LEGACY_MODE")
+except TypeError:
+    print("An error occurred while setting environment variables. Ensure you have the .env file in the same directory "
+          "as the script, and that all variables are filled in.")
+    exit()
 
-client_id = int(os.getenv("OSU_CLIENT_ID"))
-client_secret = os.getenv("OSU_CLIENT_SECRET")
 callback_url = "http://localhost:7270/"
 try:
     api = Ossapi(client_id, client_secret, callback_url)
@@ -23,7 +29,6 @@ except PermissionError:
     print("Error connecting to your OAuth client. Please make sure you have included the correct client ID and client "
           "secret in the .env file.")
     quit()
-legacy_mode = os.getenv("LEGACY_MODE")
 api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
