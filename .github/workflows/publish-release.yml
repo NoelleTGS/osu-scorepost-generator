@@ -4,33 +4,26 @@ on:
   push:
     tags:
       - '*'
-  workflow_run:
-    workflows: ["Package executable with PyInstaller - Linux", "Package exe with PyInstaller - Windows"]
-    types:
-      - completed
 
 jobs:
-  build:
+  Build-Linux:
+    uses: ./.github/workflows/pyinstaller-linux.yml
+  Build-Windows:
+    uses: ./.github/workflows/pyinstaller-windows.yml
+  Publish-release:
     runs-on: ubuntu-latest
-    needs: [build]
-    if: startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
+    needs: [Build-Linux, Build-Windows]
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Get Linux release
-      uses: actions/download-artifact@v3
-      with:
-        name: scorepostgenerator
-        path: ./bin
-
-    - name: Get Windows release
-      uses: actions/download-artifact@v3
-      with:
-        name: artifact-from-workflow-2
-        path: ./bin
-
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "bin/scorepostgenerator-*.zip"
+      - name: Get Linux binary
+        uses: actions/download-artifact@v4
+        with:
+          name: scorepostgenerator-linux
+      - name: Get Windows binary
+        uses: actions/download-artifact@v4
+        with:
+          name: scorepostgenerator-windows
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "scorepostgenerator-*.zip"
