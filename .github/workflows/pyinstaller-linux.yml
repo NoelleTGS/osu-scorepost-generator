@@ -40,7 +40,7 @@ jobs:
         run: |
           cp ./.example.env ./dist/linux/
           cd ./dist/linux
-          zip -r scorepostgenerator-linux.zip *
+          zip -r scorepostgenerator-linux.zip .
 
       - name: Delete binary
         uses: geekyeggo/delete-artifact@v5
