@@ -24,3 +24,26 @@ jobs:
       with:
         name: scorepostgenerator
         path: ./dist/linux
+
+  package:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get binary
+        uses: actions/download-artifact@v4
+        with:
+          name: scorepostgenerator
+          path: ./dist/linux
+
+      - name: Package release
+        run: |
+          cp ./.example.env ./dist/linux/
+          cd ./dist/linux
+          zip -r scorepostgenerator-linux.zip *
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: scorepostgenerator
+          path: ./dist/linux/scorepostgenerator-linux.zip
