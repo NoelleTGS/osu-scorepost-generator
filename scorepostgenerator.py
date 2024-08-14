@@ -17,7 +17,7 @@ try:
     client_id = int(os.getenv("OSU_CLIENT_ID"))
     client_secret = os.getenv("OSU_CLIENT_SECRET")
     legacy_mode = os.getenv("LEGACY_MODE")
-except TypeError:
+except (TypeError, ValueError):
     print("An error occurred while setting environment variables. Ensure you have the .env file in the same directory "
           "as the script, and that all variables are filled in.")
     exit()
