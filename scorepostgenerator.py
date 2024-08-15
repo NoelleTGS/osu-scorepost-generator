@@ -148,11 +148,12 @@ if score.statistics.count_miss > 0:
 if not score.passed:
     post += "FAIL "
 
-leaderboard = api.beatmap_scores(beatmap_id=score.beatmap.id, legacy_only=legacy_mode).scores
-for index, item in enumerate(leaderboard):
-    if item.id == score.best_id:
-        post += "#" + str(index + 1) + " "
-        break
+if beatmap.status.value > 0:
+    leaderboard = api.beatmap_scores(beatmap_id=score.beatmap.id, legacy_only=legacy_mode).scores
+    for index, item in enumerate(leaderboard):
+        if item.id == score.best_id:
+            post += "#" + str(index + 1) + " "
+            break
 
 if beatmap.status == RankStatus.LOVED:
     post += "💖 "
