@@ -11,7 +11,45 @@ A generator for r/osugame-styled osu! scoreposts.
 > [!NOTE]
 > All modes are supported, but modes other than osu!standard might be missing features or have bugs. Feel free to report any problems in the issues tab.
 
-## Getting Started
+## Usage
+> [!IMPORTANT]
+> Before starting, make sure you have created an API key and an OAuth application on the osu! website.
+> <details>
+> <summary>Instructions</summary>
+> 
+> Go to your <a href="https://osu.ppy.sh/home/account/edit">osu! settings page</a> and click "New OAuth Application" near the bottom, give it any name you want, and add "http://localhost:7270/" as a callback URL.
+> Copy the client ID and client secret for later.
+> 
+> 
+> Under the "Legacy API" tab, create an API key.
+> The application name and URL can be whatever you like. Copy the API key for later.
+> </details>
+
+### Binary
+Download the latest binary from the [releases tab](https://github.com/NoelleTGS/osu-scorepost-generator/releases) according to your platform.
+
+**Windows:**
+1. Extract the zip file.
+2. Make a copy of the `.example.env` file and rename it to `.env`.
+3. Open `.env` in your favourite text editor and fill in your osu! API key, and the client ID and secret from the OAuth app you made earlier.
+4. Run the `scorepostgenerator.exe` file.
+   - The first time you run the script (or if you haven't run it in a while), it will make you authenticate on the osu! website.
+
+**Linux:** 
+1. Extract the zip file and copy the `.example.env` file to `.env`.
+    ```shell
+    unzip scorepostgenerator-linux.zip
+    cd scorepostgenerator-linux
+    cp .example.env .env
+    ```
+2. Open `.env` in your favourite text editor and fill in your osu! API key, and the client ID and secret from the OAuth app you made earlier.
+3. Make the `scorepostgenerator` file executable and run it. 
+    - The first time you run the script (or if you haven't run it in a while), it will make you authenticate on the osu! website.
+    ```shell
+    chmod +x scorepostgenerator
+    ./scorepostgenerator
+    ```
+### From source
 **Clone the repository:**
 > ```
 > git clone https://github.com/NoelleTGS/osu-scorepost-generator.git
@@ -22,11 +60,6 @@ A generator for r/osugame-styled osu! scoreposts.
 > pip install -r requirements.txt
 > ```
 **Set up environment variables:**
-
-> Go to your [osu! settings page](https://osu.ppy.sh/home/account/edit) and click "New OAuth Application" near the bottom, give it any name you want, and add "http://localhost:7270/" as a callback URL.
->
-> Under the "Legacy API" tab, create an API key if you haven't already.
->
 > Rename or copy `.example.env` to `.env` and fill it out with your API key, client ID, and client secret.
 
 **Run the script:**
