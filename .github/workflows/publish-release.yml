@@ -1,0 +1,29 @@
+name: Publish release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  Build-Linux:
+    uses: ./.github/workflows/pyinstaller-linux.yml
+  Build-Windows:
+    uses: ./.github/workflows/pyinstaller-windows.yml
+  Publish-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [Build-Linux, Build-Windows]
+    steps:
+      - name: Get Linux binary
+        uses: actions/download-artifact@v4
+        with:
+          name: scorepostgenerator-linux
+      - name: Get Windows binary
+        uses: actions/download-artifact@v4
+        with:
+          name: scorepostgenerator-windows
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "scorepostgenerator-*.zip"

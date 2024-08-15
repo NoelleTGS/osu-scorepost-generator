@@ -1,0 +1,56 @@
+name: Package executable with PyInstaller - Linux
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_call:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: PyInstaller Linux
+      uses: NoelleTGS/pyinstaller-action-linux@python3.10
+      with:
+        path: .
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: scorepostgenerator-linux
+        path: ./dist/linux
+
+  package:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name != 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Get binary
+        uses: actions/download-artifact@v4
+        with:
+          name: scorepostgenerator-linux
+          path: ./dist/linux
+
+      - name: Package release
+        run: |
+          cp ./.example.env ./dist/linux/
+          cd ./dist/linux
+          zip -r scorepostgenerator-linux.zip .
+
+      - name: Delete binary
+        uses: geekyeggo/delete-artifact@v5
+        with:
+          name: scorepostgenerator-linux
+
+      - name: Upload release
+        uses: actions/upload-artifact@v4
+        with:
+          name: scorepostgenerator-linux
+          path: ./dist/linux/scorepostgenerator-linux.zip
