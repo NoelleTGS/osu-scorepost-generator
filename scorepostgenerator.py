@@ -40,12 +40,14 @@ if len(sys.argv) > 1:
     parser.add_argument("-m", "--mode", required=True, help="The mode of the score you wish to retrieve.")
 
     group = parser.add_mutually_exclusive_group(required=True)
-    group_user = group.add_argument("-u", "--user", help="The username of the player whose score you wish to retrieve.")
-    group_score = group.add_argument("-s", "--score", type=int, help="The ID of the score you wish to retrieve.")
+    group.add_argument("-u", "--user", help="The username of the player whose score you wish to retrieve.")
+    group.add_argument("-s", "--score", type=int, help="The ID of the score you wish to retrieve.")
 
-    user_group = parser.add_mutually_exclusive_group()
-    user_group.add_argument("-b", "--best", action="store_true", help="Retrieve the best score.")
-    user_group.add_argument("-r", "--recent", action="store_true", help="Retrieve the recent score.")
+    score_type = parser.add_mutually_exclusive_group(required=True)
+    score_type.add_argument("-b", "--best", action="store_true", help="Retrieve the best score.")
+    score_type.add_argument("-r", "--recent", action="store_true", help="Retrieve the recent score.")
+
+    parser.add_argument("-nf", "--nofails", action="store_true", default=False, help="Don't count fails when getting recent score.")
 
     args = parser.parse_args()
 
