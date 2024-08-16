@@ -9,6 +9,7 @@ import pyperclip as pc
 from circleguard import *
 import webbrowser
 from functions import calculate_pp, mod_sort
+import argparse
 
 dotenv.load_dotenv()
 
@@ -32,6 +33,21 @@ except PermissionError:
     input("\nPress Enter to quit...")
     sys.exit()
 api_osupy = Client.from_client_credentials(client_id, client_secret, callback_url)
+
+if len(sys.argv) > 1:
+    parser = argparse.ArgumentParser(description="Retrieve an osu! score and create a scorepost from it.")
+    parser.add_argument("-v", "--version", action="version", version="%(prog)s 1.0.0")
+    parser.add_argument("-m", "--mode", required=True, help="The mode of the score you wish to retrieve.")
+
+    group = parser.add_mutually_exclusive_group(required=True)
+    group_user = group.add_argument("-u", "--user", help="The username of the player whose score you wish to retrieve.")
+    group_score = group.add_argument("-s", "--score", type=int, help="The ID of the score you wish to retrieve.")
+
+    user_group = parser.add_mutually_exclusive_group()
+    user_group.add_argument("-b", "--best", action="store_true", help="Retrieve the best score.")
+    user_group.add_argument("-r", "--recent", action="store_true", help="Retrieve the recent score.")
+
+    args = parser.parse_args()
 
 gamemode = input("Mode (osu, taiko, fruits, mania): ")
 if gamemode not in ["osu", "taiko", "fruits", "mania"]:
