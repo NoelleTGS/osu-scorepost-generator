@@ -68,6 +68,24 @@ Download the latest binary from the [releases tab](https://github.com/NoelleTGS/
 > ```
 > The first time you run the script (or if you haven't run it in a while), it will make you authenticate on the osu! website.
 
+### Command line arguments
+If you're a poweruser, you can run the script using command line arguments.
+```
+usage: scorepostgenerator.py [-h] [-v] -m MODE (-u USER | -s SCORE) [-b | -r] [-nf]
+
+options:
+  -h, --help            show this help message and exit
+  -v, --version         show program's version number and exit
+  -m MODE, --mode MODE  The mode of the score you wish to retrieve.
+  -u USER, --user USER  The username of the player whose score you wish to retrieve.
+  -s SCORE, --score SCORE
+                        The ID of the score you wish to retrieve.
+  -b, --best            Retrieve the best score.
+  -r, --recent          Retrieve the recent score.
+  -nf, --nofails        Don't count fails when getting recent score.
+```
+This works on both the `.py` file and the packaged build from the releases tab.
+
 ## Important Info
 > [!NOTE]
 > In osu!standard, as there is still no way to reliably differentiate between an S-rank with sliderbreaks and an FC with missed sliderends (tracked in https://github.com/NoelleTGS/osu-scorepost-generator/issues/10), an approximation is made where if the max combo of the play is more than 99% of the max combo of the beatmap, the score is counted as an FC. I have found very few instances where this ends up being incorrect, but if you find any more or know a better way to do this, feel free to post in the linked issue.
