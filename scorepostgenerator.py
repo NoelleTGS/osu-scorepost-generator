@@ -51,30 +51,63 @@ if len(sys.argv) > 1:
 
     args = parser.parse_args()
 
-gamemode = input("Mode (osu, taiko, fruits, mania): ")
-if gamemode not in ["osu", "taiko", "fruits", "mania"]:
-    print("Invalid mode.")
-    input("\nPress Enter to quit...")
-    sys.exit()
-input_mode = input("User or score: ")
-if input_mode == "user":
-    currentUser = input("Enter a username: ")
-    try:
-        currentUser = api.user(currentUser)
-    except ValueError:
-        print("User not found.")
+    if args.user and (args.best is False and args.recent is False):
+        parser.error("--user requires either --best or --recent.")
+
+    gamemode = args.mode
+    if args.user:
+        input_mode = "user"
+        currentUser = args.user
+        try:
+            currentUser = api.user(currentUser)
+        except ValueError:
+            print("User not found.")
+            sys.exit()
+        mode = "best" if args.best else "recent"
+        fails = not args.nofails
+    elif args.score:
+        input_mode = "score"
+        scoreID = args.score
+        try:
+            score = api.score(scoreID)
+            currentUser = api.user(score.user())
+            score_osupy = api_osupy.get_score_by_id_only(scoreID)
+        except IndexError:
+            print("Score not found.")
+            input("\nPress Enter to quit...")
+            sys.exit()
+else:
+    gamemode = input("Mode (osu, taiko, fruits, mania): ")
+    if gamemode not in ["osu", "taiko", "fruits", "mania"]:
+        print("Invalid mode.")
         input("\nPress Enter to quit...")
         sys.exit()
-    mode = input("Best or recent: ")
-    if mode == "recent":
-        fails = input("Consider fails? (Y/n) ")
-        if fails == "Y" or fails == "y" or fails == "":
+    input_mode = input("User or score: ")
+    if input_mode == "user":
+        currentUser = input("Enter a username: ")
+        try:
+            currentUser = api.user(currentUser)
+        except ValueError:
+            print("User not found.")
+            input("\nPress Enter to quit...")
+            sys.exit()
+        mode = input("Best or recent: ")
+        if mode == "recent":
+            fails = input("Consider fails? (Y/n) ")
+            if fails == "Y" or fails == "y" or fails == "":
+                fails = True
+            if fails == "N" or fails == "n":
+                fails = False
+        else:
             fails = True
-        if fails == "N" or fails == "n":
-            fails = False
+    elif input_mode == "score":
+        scoreID = int(input("Enter score ID: "))
     else:
-        fails = True
+        print("Invalid entry.")
+        input("\nPress Enter to quit...")
+        sys.exit()
 
+if input_mode == "user":
     try:
         score = api.user_scores(currentUser.id, mode, include_fails=fails, mode=gamemode, limit=1, legacy_only=legacy_mode)[0]
     except IndexError:
@@ -92,7 +125,6 @@ if input_mode == "user":
         score_osupy = api_osupy.get_score_by_id_only(score.id)
         scoreID = score.id
 elif input_mode == "score":
-    scoreID = int(input("Enter score ID: "))
     try:
         score = api.score(scoreID)
         currentUser = api.user(score.user())
@@ -101,10 +133,6 @@ elif input_mode == "score":
         print("Score not found.")
         input("\nPress Enter to quit...")
         sys.exit()
-else:
-    print("Invalid entry.")
-    input("\nPress Enter to quit...")
-    sys.exit()
 
 attributes = api.beatmap_attributes(beatmap_id=score.beatmap.id, mods=score.mods, ruleset=score.mode).attributes
 beatmap = api.beatmap(beatmap_id=score.beatmap.id)
