@@ -43,7 +43,7 @@ if len(sys.argv) > 1:
     group.add_argument("-u", "--user", help="The username of the player whose score you wish to retrieve.")
     group.add_argument("-s", "--score", type=int, help="The ID of the score you wish to retrieve.")
 
-    score_type = parser.add_mutually_exclusive_group(required=True)
+    score_type = parser.add_mutually_exclusive_group(required=False)
     score_type.add_argument("-b", "--best", action="store_true", help="Retrieve the best score.")
     score_type.add_argument("-r", "--recent", action="store_true", help="Retrieve the recent score.")
 
