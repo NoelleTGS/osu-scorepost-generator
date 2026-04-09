@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: PyInstaller Windows
-      uses: NoelleTGS/pyinstaller-action-windows@main
+      uses: JackMcKew/pyinstaller-action-windows@main
       with:
         path: .
 
