@@ -2,6 +2,7 @@ python-dotenv~=1.2.2
 requests~=2.32.3
 pyperclip~=1.11.0
 ossapi~=4.0.0
+circleguard~=5.4.3
 rosu-pp-py==1.1.0
 osu.py~=2.2.1
 urllib3>=2.5.0 # not directly required, pinned by Snyk to avoid a vulnerability
