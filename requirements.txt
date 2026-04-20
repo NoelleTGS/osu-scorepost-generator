@@ -1,5 +1,5 @@
 python-dotenv~=1.2.2
-requests~=2.32.3
+requests~=2.33.1
 pyperclip~=1.11.0
 ossapi~=4.0.0
 circleguard~=5.4.3
