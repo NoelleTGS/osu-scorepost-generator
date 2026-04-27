@@ -1,7 +1,7 @@
 python-dotenv~=1.2.2
 requests~=2.33.1
 pyperclip~=1.11.0
-ossapi~=4.0.0
+ossapi~=5.3.5
 circleguard~=5.4.3
 rosu-pp-py==1.1.0
 osu.py~=2.2.1
