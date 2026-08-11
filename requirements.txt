@@ -7,4 +7,4 @@ rosu-pp-py==1.1.0
 osu.py~=2.2.1
 urllib3>=2.5.0 # not directly required, pinned by Snyk to avoid a vulnerability
 numpy>=1.22.0 # not directly required, pinned by Snyk to avoid a vulnerability
-setuptools<82.0.0
+setuptools<83.0.0
